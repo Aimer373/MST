@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sony.mts.dao.EmployeeMapper">
+
+	<resultMap id="BaseResultMap"
+		type="com.sony.mts.entity.Employee">
+		<id column="emp_id" jdbcType="CHAR" property="empId" />
+		<result column="dep_num" jdbcType="CHAR" property="depNum" />
+		<result column="pos_num" jdbcType="CHAR" property="posNum" />
+		<result column="emp_name" jdbcType="VARCHAR" property="empName" />
+		<result column="card_id" jdbcType="CHAR" property="cardId" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="mobile_num" jdbcType="CHAR"
+			property="mobileNum" />
+		<result column="email_adr" jdbcType="VARCHAR"
+			property="emailAdr" />
+		<result column="pass_wd" jdbcType="VARCHAR" property="passWd" />
+		<collection property="position" resultMap="BaseResultMapPosition"/>
+		<collection property="department" resultMap="BaseResultMapDepartment"/>
+	</resultMap>
+	<resultMap id="BaseResultMapPosition"
+		type="com.sony.mts.entity.Position">
+		<id column="pos_num" jdbcType="CHAR" property="posNum" />
+		<result column="dep_num" jdbcType="CHAR" property="depNum" />
+		<result column="pos_name" jdbcType="VARCHAR" property="posName" />
+	</resultMap>
+	<resultMap id="BaseResultMapDepartment"
+		type="com.sony.mts.entity.Department">
+		<id column="dep_num" jdbcType="CHAR" property="depNum" />
+		<result column="dep_name" jdbcType="VARCHAR" property="depName" />
+		<result column="chairman_num" jdbcType="CHAR"
+			property="chairmanNum" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		emp_id, dep_num, pos_num, emp_name, card_id, sex,
+		mobile_num, email_adr,
+		pass_wd
+	</sql>
+	
+	<!-- 员工信息取得 -->
+	<select id="findByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info
+		where emp_id = #{empId,jdbcType=CHAR}
+	</select>
+	
+	<!-- 员工信息删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		Employee_info
+		where emp_id = #{empId,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 员工信息追加 -->
+	<insert id="insert" parameterType="com.sony.mts.entity.Employee">
+		insert into Employee_info
+		(emp_id, dep_num, pos_num,
+		emp_name, card_id, sex,
+		mobile_num,
+		email_adr, pass_wd
+		)
+		values (#{empId,jdbcType=CHAR},
+		#{depNum,jdbcType=CHAR},
+		#{posNum,jdbcType=CHAR},
+		#{empName,jdbcType=VARCHAR}, #{cardId,jdbcType=CHAR},
+		#{sex,jdbcType=VARCHAR},
+		#{mobileNum,jdbcType=CHAR},
+		#{emailAdr,jdbcType=VARCHAR},
+		#{passWd,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 员工信息更新 -->
+	<update id="updateByPrimaryKey"
+		parameterType="com.sony.mts.entity.Employee">
+		update Employee_info
+		set 
+		<if test="depNum!=null">
+		dep_num = #{depNum,jdbcType=CHAR},
+		</if>
+		<if test="posNum!=null">
+		pos_num = #{posNum,jdbcType=CHAR},
+		</if>
+		<if test="empName!=null">
+		emp_name = #{empName,jdbcType=VARCHAR},
+		</if>
+		<if test="cardId!=null">
+		card_id = #{cardId,jdbcType=CHAR},
+		</if>
+		<if test="sex!=null">
+		sex = #{sex,jdbcType=VARCHAR},
+		</if>
+		<if test="mobileNum!=null">
+		mobile_num = #{mobileNum,jdbcType=CHAR},
+		</if>
+		<if test="emailAdr!=null">
+		email_adr = #{emailAdr,jdbcType=VARCHAR},
+		</if>
+		<if test="passWd!=null">
+		pass_wd = #{passWd,jdbcType=VARCHAR}
+		</if>
+		where emp_id = #{empId,jdbcType=CHAR}
+	</update>
+	
+	<!-- 全部员工信息取得 -->
+	<select id="findAllEmployees" resultMap="BaseResultMap"
+		parameterType="com.sony.mts.entity.Employee">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info 
+	</select>
+	
+	<!-- 员工信息取得（depNum） -->
+	<select id="findByDepNum" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info
+		where dep_num = #{depNum,jdbcType=CHAR}
+	</select>
+	
+	<!-- 员工信息取得（posNum） -->
+	<select id="findByPosNum" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info
+		where pos_num = #{posNum,jdbcType=CHAR}
+	</select>
+	
+	<!-- 员工信息模糊查询 -->
+	<!-- <select id="findByEmpIdLike" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info
+		<bind name="Id" value="'%' + _parameter + '%'" />
+		WHERE emp_id LIKE #{Id,jdbcType=CHAR} or dep_num LIKE
+		#{Id,jdbcType=CHAR} or pos_num LIKE #{Id,jdbcType=CHAR} or emp_name
+		LIKE #{Id,jdbcType=CHAR} or card_id LIKE #{Id,jdbcType=CHAR} or sex
+		LIKE #{Id,jdbcType=CHAR} or mobile_num LIKE #{Id,jdbcType=CHAR} or
+		email_adr LIKE #{Id,jdbcType=CHAR}
+	</select> -->
+	
+	<!-- 员工信息取得（cardId） -->
+	<select id="findByCardId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info
+		where card_id = #{cardId,jdbcType=CHAR}
+	</select>
+	
+	<!-- 员工信息取得（mobileNum） -->
+	<select id="findByMobileNum" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info
+		where mobile_num = #{mobileNum,jdbcType=CHAR}
+	</select>
+	
+	<!-- 员工信息取得（emailAdr） -->
+	<select id="findByEmailAdr" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info
+		where email_adr = #{emailAdr,jdbcType=CHAR}
+	</select>
+	
+	<!-- 员工信息取得（empId，passWd） -->
+	<select id="findByUser" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Employee_info
+		where emp_id = #{empId,jdbcType=CHAR} and pass_wd = #{passWd,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 员工信息取得（带部门职位） -->
+	<select id="findEmpList" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select p.pos_name,e.*,d.* from Position_info p join Employee_info e on p.pos_num=e.pos_num join Department_info d on e.dep_num=d.dep_num
+	</select>
+	
+	<!-- 员工信息模糊查询 -->
+	<select id="findByEmpIdLike" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		p.pos_name,e.*,d.*
+		from Position_info p join Employee_info e on p.pos_num=e.pos_num join Department_info d on e.dep_num=d.dep_num
+		<bind name="Id" value="'%' + _parameter + '%'" />
+		WHERE CONCAT(emp_id,d.dep_num,e.pos_num,emp_name,card_id,sex,mobile_num,email_adr) LIKE #{Id,jdbcType=CHAR}
+	</select>
+	
+</mapper>

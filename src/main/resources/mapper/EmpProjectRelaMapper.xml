@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sony.mts.dao.EmpProjectRelaMapper">
+
+	<resultMap id="BaseResultMap"
+		type="com.sony.mts.entity.EmpProjectRela">
+		<id column="task_id" jdbcType="CHAR" property="taskId" />
+		<result column="emp_id" jdbcType="CHAR" property="empId" />
+		<result column="pro_num" jdbcType="CHAR" property="proNum" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		task_id, emp_id, pro_num
+	</sql>
+	
+	<!-- 任务信息取得 -->
+	<select id="findByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EmpProjectRela
+		where task_id = #{taskId,jdbcType=CHAR}
+	</select>
+	
+	<!-- 任务信息删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		EmpProjectRela
+		where task_id = #{taskId,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 任务信息追加 -->
+	<insert id="insert"
+		parameterType="com.sony.mts.entity.EmpProjectRela">
+		insert into EmpProjectRela (task_id, emp_id, pro_num)
+		values (#{taskId,jdbcType=CHAR}, #{empId,jdbcType=CHAR},
+		#{proNum,jdbcType=CHAR})
+	</insert>
+	
+	<!-- 任务信息更新 -->
+	<update id="updateByPrimaryKey"
+		parameterType="com.sony.mts.entity.EmpProjectRela">
+		update EmpProjectRela
+		<if test="empId!=null">
+		set emp_id = #{empId,jdbcType=CHAR},
+		</if>
+		<if test="proNum!=null">
+		pro_num = #{proNum,jdbcType=CHAR}
+		</if>
+		where task_id = #{taskId,jdbcType=CHAR}
+	</update>
+	
+	<!-- 全部任务信息取得 -->
+	<select id="findAllEmpProjectRelas" resultMap="BaseResultMap"
+		parameterType="com.sony.mts.entity.EmpProjectRela">
+		select
+		<include refid="Base_Column_List" />
+		from EmpProjectRela 
+	</select>
+	
+	<!-- 任务信息取得（empId） -->
+	<select id="findByEmpId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EmpProjectRela where emp_id=#{empId,jdbcType=CHAR}
+	</select>
+	
+	<!-- 任务信息取得（proNum） -->
+	<select id="findByProNum" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EmpProjectRela where pro_num = #{proNum,jdbcType=CHAR}
+	</select>
+	
+	<!-- 任务信息模糊查询 -->
+	<!-- <select id="findByEmpIdLike" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EmpProjectRela
+		<bind name="Id" value="'%' + _parameter + '%'" />
+		WHERE task_id LIKE #{Id,jdbcType=CHAR} or emp_id LIKE
+		#{Id,jdbcType=CHAR} or pro_num LIKE #{Id,jdbcType=CHAR}
+	</select> -->
+	
+	<!-- 任务信息模糊查询 -->
+	<select id="findByEmpIdLike" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EmpProjectRela
+		<bind name="Id" value="'%' + _parameter + '%'" />
+		WHERE CONCAT(task_id,emp_id,pro_num) LIKE #{Id,jdbcType=CHAR}
+	</select>
+	
+</mapper>

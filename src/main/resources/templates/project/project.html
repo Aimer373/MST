@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>项目信息列表</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/HomePage.css">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+    .btn-page {
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+        padding: 5px 10px;
+    }
+    .btn-active {
+        color: mintcream;/*字体*/
+        background-color: #0d69af;/*背景*/
+        border-color: #0d69af;/*边界*/
+    }
+    .main{
+	    position: absolute;
+	    left:50%;
+	    top:50%;
+	    transform: translate(-50%, -50%);
+	}
+</style>
+<body>
+	<div style="padding: 20px 550px 10px">        
+	    <form action="/pro/likePro" class="form-inline">
+		    <div class="input-group">
+				<input type="text" name="Id"  placeholder=" 请输入要查询的项目信息"  class="form-control" required autofocus >       
+			    <input type="text" name="flag"  th:value=${flag}  hidden="hidden" >
+			    <span class="input-group-btn"> 
+			    	<input type="submit" value="查询" class="btn btn-default">
+				</span>
+		    </div>
+		    <p  th:text=${findMsg} style="color:red"></p>
+		    <a class="glyphicon glyphicon-log-in"  th:href="@{/toMain}" style="float:right">后退</a>
+		    <a th:href="@{/logout}" style="float:right"><span class="glyphicon glyphicon-log-in"></span>&nbsp;退出</a>
+		</form>
+	</div>
+	
+    <div class="panel panel-default" style="width: 90%; margin-left: 5%">
+		<div class="panel-heading">
+			<h3 class="panel-title" style="text-align: center">项目信息</h3>
+		</div>
+		<div class="panel-body" th:if=${pageInfo}!=null>
+			<table class="table table-hover" style="text-align: center">
+			    <thead>
+				    <tr >      
+				        <th>项目编号</th>
+				        <th>项目名称</th>       
+				        <th>操作</th>
+				    </tr>
+			    </thead>    
+			    <tr th:each="pageInfo:${pageInfo.list}" th:if=${pageInfo}!=null>
+			        <td th:text="${pageInfo.proNum}"></td>
+			        <td th:text="${pageInfo.proName}"></td>                       
+			        <td>
+			        	<a th:href="@{'/pro/toUpdatePro/'+${pageInfo.proNum}}">修改</a>
+			            <a th:href="@{'/pro/proDelete/'+${pageInfo.proNum}}" >删除</a>            
+			        </td>
+			    </tr>
+			</table>
+		<!-- <a th:href="@{toaddpro}">添加项目</a> -->
+		<h3 th:text="${deletePro}" style="text-align: center;color:red"></h3>    
+		</div>
+	</div>
+	
+	<!-- 分页 -->
+	<div class="row" th:if=${pageInfo}!=null style="margin:auto">
+	    <div class="col-md-6 "  style="color:white">
+	         当前第[[${pageInfo.pageNum}]]页，共[[${pageInfo.pages}]]页，共[[${pageInfo.total}]]条记录 
+        </div>
+	</div>
+	<!-- 分页导航条 -->
+	<div	 th:if=${Id}==null >                               
+		<div class="pagenation main" th:if=${pageInfo}!=null>
+		    <a th:href="${flag}==null?@{/pro/findAll/}:@{/pro/managerFindAll/}"><span class="btn-page btn-default">首页</span></a>
+		    <a th:href="${flag}==null?@{/pro/findAll/(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}:@{/pro/managerFindAll/(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}"><span
+		            class="btn-page btn-default">上一页</span></a>
+		 <!-- 遍历导航页 --> 
+		    <a th:each="page,pageStat:${pageInfo.navigatepageNums}"
+		       th:href="${flag}==null?@{/pro/findAll/(pageNum=${page})}:@{/pro/managerFindAll/(pageNum=${page})}">
+		        <span th:if="${page}==${pageInfo.pageNum}">
+		            <span class="btn-page btn-active" th:text="${page}"></span>
+		        </span>
+		        <span th:if="${page}!=${pageInfo.pageNum}">
+		            <span class="btn-page btn-default" th:text="${page}"></span>
+		        </span>
+		    </a>
+		<!-- 导航页 -->	
+		    <a th:href="${flag}==null?@{/pro/findAll/(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}:@{/pro/managerFindAll/(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}"><span
+		            class="btn-page btn-default">下一页</span></a>
+		    <a th:href="${flag}==null?@{/pro/findAll/(pageNum=${pageInfo.pages})}:@{/pro/managerFindAll/(pageNum=${pageInfo.pages})}"><span class="btn-page btn-default">尾页</span></a>
+		</div>
+	</div>	 
+	
+	<!-- 分页导航条(模糊查询) -->
+	<div	 th:if=${Id}!=null >                                
+		<div class="pagenation main" th:if=${pageInfo}!=null >
+		    <a th:href="@{'/pro/likePro/?Id='+${Id}+'&flag='+${flag}}"><span class="btn-page btn-default">首页</span></a>
+		    <a th:href="@{'/pro/likePro/?Id='+${Id}+'&flag='+${flag}(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}"><span
+		            class="btn-page btn-default">上一页</span></a>
+		 <!-- 遍历导航页 --> 
+		    <a th:each="page,pageStat:${pageInfo.navigatepageNums}"
+		       th:href="@{'/pro/likePro/?Id='+${Id}+'&flag='+${flag}(pageNum=${page})}">
+		        <span th:if="${page}==${pageInfo.pageNum}">
+		            <span class="btn-page btn-active" th:text="${page}"></span>
+		        </span>
+		        <span th:if="${page}!=${pageInfo.pageNum}">
+		            <span class="btn-page btn-default" th:text="${page}"></span>
+		        </span>
+		    </a>
+		<!-- 导航页 -->	
+		    <a th:href="@{'/pro/likePro/?Id='+${Id}+'&flag='+${flag}(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}"><span
+		            class="btn-page btn-default">下一页</span></a>
+		    <a th:href="@{'/pro/likePro/?Id='+${Id}+'&flag='+${flag}(pageNum=${pageInfo.pages})}"><span class="btn-page btn-default">尾页</span></a>
+		</div>
+	</div>
+</body>
+
+<script type='text/javascript'>   
+	if(window.addEventListener){  
+		window.addEventListener("DOMCharacterDataModified", function(){window.location.reload();}, true);  //在文本节点的值发生变化的时候触发
+		window.addEventListener("DOMAttributeNameChanged", function(){window.location.reload();}, true);  //DOM属性名发生变化触发(不支持火狐)
+		window.addEventListener("DOMElementNameChanged", function(){window.location.reload();}, true);  //DOM元素名发生变化触发(不支持火狐)
+		window.addEventListener("DOMNodeInserted", function(){window.location.reload();}, true);  //在一个节点作为子节点被插入到另一个节点中时触发
+		window.addEventListener("DOMNodeInsertedIntoDocument", function(){window.location.reload();}, true); //在一个节点被直接插入文档中或者通过子树间接插入文档后触发。在DOMNodeInserted之后触发 (不支持IE)
+		window.addEventListener("DOMNodeRemoved", function(){window.location.reload();}, true);  //在节点从其父节点中被移除时触发
+		window.addEventListener("DOMNodeRemovedFromDocument", function(){window.location.reload();}, true);  //在一个节点被直接从文档中删除或通过子树间接从文档中移除之前触发。在DOMNodeRemoved之后触发(不支持IE)
+		//window.addEventListener("DOMSubtreeModified", function(){window.location.reload();}, true);  //在DOM结构中发生任何变化时触发
+	}    
+</script>
+</html>

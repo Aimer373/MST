@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>员工管理系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/HomePage.css">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="header">
+		<div class="left">
+			<ul>
+				<li>员工管理系统</li>
+			</ul>
+		</div>
+	</div>
+	<nav class="nav nav-tabs" style="background-color: #EEEEEE">
+		<div class="container-fluid">
+			<div>
+				<ul class="nav navbar-nav">
+					<li><a th:href="@{'/dept/findDept/'+${employee.depNum}}" > 所在部门</a></li>
+					<li><a th:href="@{'/emp/findEmp/'+${employee.empId}}"> 个人信息 </a></li>
+					<li><a th:href="@{'/pos/findPos/'+${employee.posNum}}" > 职位信息</a></li>
+					<li><a th:href="@{'/epr/findEpr/'+${employee.empId}}" > 当前任务 </a></li>
+				</ul>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#" style="color: #000000"><span th:text="${employee.empName}+',欢迎您'" class="glyphicon glyphicon-user"></span>&nbsp;</a></li>
+				<li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;退出</a></li>
+				<li><a th:href="@{/index.html}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;后退</a></li>
+			</ul>
+		</div>
+	</nav>
+</body>
+
+<script type='text/javascript'>   
+	if(window.addEventListener){  
+		window.addEventListener("DOMCharacterDataModified", function(){window.location.reload();}, true);  //在文本节点的值发生变化的时候触发
+		window.addEventListener("DOMAttributeNameChanged", function(){window.location.reload();}, true);  //DOM属性名发生变化触发(不支持火狐)
+		window.addEventListener("DOMElementNameChanged", function(){window.location.reload();}, true);  //DOM元素名发生变化触发(不支持火狐)
+		window.addEventListener("DOMNodeInserted", function(){window.location.reload();}, true);  //在一个节点作为子节点被插入到另一个节点中时触发
+		window.addEventListener("DOMNodeInsertedIntoDocument", function(){window.location.reload();}, true); //在一个节点被直接插入文档中或者通过子树间接插入文档后触发。在DOMNodeInserted之后触发 (不支持IE)
+		window.addEventListener("DOMNodeRemoved", function(){window.location.reload();}, true);  //在节点从其父节点中被移除时触发
+		window.addEventListener("DOMNodeRemovedFromDocument", function(){window.location.reload();}, true);  //在一个节点被直接从文档中删除或通过子树间接从文档中移除之前触发。在DOMNodeRemoved之后触发(不支持IE)
+		//window.addEventListener("DOMSubtreeModified", function(){window.location.reload();}, true);  //在DOM结构中发生任何变化时触发
+	}    
+</script>
+</html>

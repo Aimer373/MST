@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/HomePage.css">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h3 style="color:white"th:if=${status}==405>错误信息：请勿非法访问！！！</h3>
+<h3 style="color:white"th:if=${msg}!=null>错误信息：</h3><h3 th:text="${msg}" style="color:white"></h3>
+<h3 style="color:white"th:if=${code}!=null>状态码：</h3><h3 th:text="${code}" style="color:white"></h3>
+<h3 style="color:white"th:if=${status}!=null>status：</h3><h3 th:text="${status}" style="color:white"></h3>
+<h3 style="color:white"th:if=${url}!=null>path：</h3><h3 th:text="${url}" style="color:white"></h3>
+<h3 style="color:white"th:if=${message}!=null>message：</h3><h3 th:text="${message}" style="color:white"></h3>
+<h3 style="color:white"th:if=${timestamp}!=null>timestamp：</h3><h3 th:text="${timestamp}" style="color:white"></h3>
+<h2  style="color:white" th:if=${error}!=null>error:[[${error}]]</h2>
+<a  onclick="window.history.go(-1)"  class="btn btn-lg btn-primary btn-block"> 后退</a>
+</body>
+</html>

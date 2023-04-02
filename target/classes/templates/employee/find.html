@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>员工信息列表</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/HomePage.css">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div style="padding: 20px 550px 10px"></div>
+	<div class="panel panel-default" style="width: 90%; margin-left: 5%">
+		<div class="panel-body">
+			<a th:href="@{/logout}" style="float:right"><span class="glyphicon glyphicon-log-in"></span>&nbsp;退出</a>
+			<a th:href="@{/toMain}" style="float:right" ><span class="glyphicon glyphicon-log-in"></span>&nbsp;后退</a>
+		<!-- emp -->
+			  <table class="table table-hover" style="text-align: center">
+			    <thead>
+				    <tr style="text-align:center">
+				        <th>员工编号</th>
+				        <th>部门编号</th>
+				        <th>职位编号</th>
+				        <th>员工姓名</th>
+				        <th>身份证号</th>
+				        <th>性别</th>
+				        <th>手机号码</th>
+				        <th>邮箱</th>      
+				    </tr>
+			    </thead>    
+			    <tr th:if=${findMsg}==null>
+			        <td th:text="${employee.empId}"></td>
+			        <td th:text="${employee.depNum}"></td>
+			        <td th:text="${employee.posNum}"></td>
+			        <td th:text="${employee.empName}"></td>
+			        <td th:text="${employee.cardId}"></td>
+			        <td th:text="${employee.sex}"></td>
+			        <td th:text="${employee.mobileNum}"></td>
+			        <td th:text="${employee.emailAdr}"></td> 	                        
+			    </tr>
+			</table>			 
+			<p th:text=${findMsg} style="color:red"></p>
+		</div>
+	</div>   
+</body>
+
+<script type='text/javascript'>   
+	if(window.addEventListener){  
+		window.addEventListener("DOMCharacterDataModified", function(){window.location.reload();}, true);  //在文本节点的值发生变化的时候触发
+		window.addEventListener("DOMAttributeNameChanged", function(){window.location.reload();}, true);  //DOM属性名发生变化触发(不支持火狐)
+		window.addEventListener("DOMElementNameChanged", function(){window.location.reload();}, true);  //DOM元素名发生变化触发(不支持火狐)
+		window.addEventListener("DOMNodeInserted", function(){window.location.reload();}, true);  //在一个节点作为子节点被插入到另一个节点中时触发
+		window.addEventListener("DOMNodeInsertedIntoDocument", function(){window.location.reload();}, true); //在一个节点被直接插入文档中或者通过子树间接插入文档后触发。在DOMNodeInserted之后触发 (不支持IE)
+		window.addEventListener("DOMNodeRemoved", function(){window.location.reload();}, true);  //在节点从其父节点中被移除时触发
+		window.addEventListener("DOMNodeRemovedFromDocument", function(){window.location.reload();}, true);  //在一个节点被直接从文档中删除或通过子树间接从文档中移除之前触发。在DOMNodeRemoved之后触发(不支持IE)
+		//window.addEventListener("DOMSubtreeModified", function(){window.location.reload();}, true);  //在DOM结构中发生任何变化时触发
+	}    
+</script>
+</html>
