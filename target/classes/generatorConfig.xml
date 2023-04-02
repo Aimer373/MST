@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+   <!-- 注释构建 -->
+    <commentGenerator>
+       <!-- 去掉所有的注释 -->
+        <property name="suppressAllComments" value="true"/>
+        <property name="suppressDate" value="true"/>
+    </commentGenerator>   
+    <!-- 数据库四要素 -->
+    <jdbcConnection connectionURL="jdbc:mysql://43.82.163.41:3306/MTS?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=GMT&amp;nullCatalogMeansCurrent = true" 
+    driverClass="com.mysql.cj.jdbc.Driver" password="123456" userId="root" />
+    <!-- 实体类  -->
+    <javaModelGenerator targetPackage="com.sony.mts.entity" targetProject="src/main/java" />
+    <!-- 映射文件 -->
+    <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources" />   
+    <!-- 操作接口 -->
+    <javaClientGenerator  targetPackage="com.sony.mts.dao" targetProject="src/main/java" type="XMLMAPPER" />   
+    <table  tableName="EmpProjectRela "  domainObjectName="EmpProjectRela" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"></table>
+  </context>
+</generatorConfiguration>

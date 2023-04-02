@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>员工管理系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/static/css/signin.css" type="text/css">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div  class="container">
+	    <form class="form-signin" action="/login"  method="Post" >
+		    <h2 class="form-signin-heading">Login</h2>
+		    <label for="empId" class="sr-only">用户名</label>
+		    <input type="text" class="form-control" placeholder="员工ID" required autofocus name="empId">    
+		    <label for="passWd" class="sr-only">密码</label>
+			<input type="password" class="form-control" placeholder="请输入密码" required autofocus name="passWd">
+		    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+		</form> 
+	    <span  th:text=${loginMsg}  class="alert"></span>
+	</div> 
+</body>
+
+<script type='text/javascript'>   
+	if(window.addEventListener){  
+		window.addEventListener("DOMCharacterDataModified", function(){window.location.reload();}, true);  //在文本节点的值发生变化的时候触发
+		window.addEventListener("DOMAttributeNameChanged", function(){window.location.reload();}, true);  //DOM属性名发生变化触发(不支持火狐)
+		window.addEventListener("DOMElementNameChanged", function(){window.location.reload();}, true);  //DOM元素名发生变化触发(不支持火狐)
+		window.addEventListener("DOMNodeInserted", function(){window.location.reload();}, true);  //在一个节点作为子节点被插入到另一个节点中时触发
+		window.addEventListener("DOMNodeInsertedIntoDocument", function(){window.location.reload();}, true); //在一个节点被直接插入文档中或者通过子树间接插入文档后触发。在DOMNodeInserted之后触发 (不支持IE)
+		window.addEventListener("DOMNodeRemoved", function(){window.location.reload();}, true);  //在节点从其父节点中被移除时触发
+		window.addEventListener("DOMNodeRemovedFromDocument", function(){window.location.reload();}, true);  //在一个节点被直接从文档中删除或通过子树间接从文档中移除之前触发。在DOMNodeRemoved之后触发(不支持IE)
+		//window.addEventListener("DOMSubtreeModified", function(){window.location.reload();}, true);  //在DOM结构中发生任何变化时触发
+	}    
+</script>
+</html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sony.mts.dao.PositionMapper">
+
+	<resultMap id="BaseResultMap"
+		type="com.sony.mts.entity.Position">
+		<id column="pos_num" jdbcType="CHAR" property="posNum" />
+		<result column="dep_num" jdbcType="CHAR" property="depNum" />
+		<result column="pos_name" jdbcType="VARCHAR" property="posName" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		pos_num, dep_num, pos_name
+	</sql>
+	
+	<!-- 职位信息取得 -->
+	<select id="findByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Position_info
+		where pos_num = #{posNum,jdbcType=CHAR}
+	</select>
+	
+	<!-- 职位信息删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from Position_info
+		where pos_num = #{posNum,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 职位信息追加 -->
+	<insert id="insert" parameterType="com.sony.mts.entity.Position">
+		insert into Position_info (pos_num, dep_num, pos_name
+		)
+		values (#{posNum,jdbcType=CHAR}, #{depNum,jdbcType=CHAR},
+		#{posName,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 职位信息更新 -->
+	<update id="updateByPrimaryKey"
+		parameterType="com.sony.mts.entity.Position">
+		update Position_info
+		<if test="depNum!=null">
+		set dep_num = #{depNum,jdbcType=CHAR},
+		</if>
+		<if test="posName!=null">
+		pos_name = #{posName,jdbcType=VARCHAR}
+		</if>
+		where pos_num = #{posNum,jdbcType=CHAR}
+	</update>
+	
+	<!-- 全部职位信息取得 -->
+	<select id="findAllPositions" resultMap="BaseResultMap"
+		parameterType="com.sony.mts.entity.Position">
+		select
+		<include refid="Base_Column_List" />
+		from Position_info
+	</select>
+	
+	<!-- 职位信息取得（depNum) -->
+	<select id="findByDepNum" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Position_info
+		where dep_num = #{depNum,jdbcType=CHAR}
+	</select>
+	
+	<!-- 职位信息取得模糊查询 -->
+	<!-- <select id="findByEmpIdLike" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Position_info
+		<bind name="Id" value="'%' + _parameter + '%'" />
+		WHERE pos_num LIKE #{Id,jdbcType=CHAR} or dep_num LIKE #{Id,jdbcType=CHAR} or pos_name LIKE #{Id,jdbcType=CHAR}
+	</select> -->
+	
+	<!-- 职位信息取得模糊查询 -->
+	<select id="findByEmpIdLike" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Position_info
+		<bind name="Id" value="'%' + _parameter + '%'" />
+		WHERE CONCAT(pos_num,dep_num,pos_name) LIKE #{Id,jdbcType=CHAR}
+	</select>
+	
+</mapper>

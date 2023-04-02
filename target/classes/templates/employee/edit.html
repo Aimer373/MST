@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+<title>员工管理系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/HomePage.css">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="panel panel-default" style="width: 90%; margin-left: 5%">
+		<div class="panel-body">
+			<a th:href="@{/logout}" style="float:right"><span class="glyphicon glyphicon-log-in"></span>&nbsp;退出</a>
+			<a th:href="@{/emp/findAll}" style="float:right" th:if=${empId}!=null><span class="glyphicon glyphicon-log-in"></span>&nbsp;后退</a> 
+			<a th:href="@{/toMain}" style="float:right" th:if=${empId}==null><span class="glyphicon glyphicon-log-in"></span>&nbsp;后退</a>
+			
+			<!-- update -->
+			<form action="/emp/updateEmp"  method="post" th:if=${empId}!=null> 
+				<table class="table table-hover" style="text-align: center">
+					<thead>
+						<tr>
+							<th>员工ID：<input type="text" class="form-control" required autofocus name="empId" readonly="readonly" th:value=${empId}></th>
+							<th>部门编号： <input type="text" class="form-control" required autofocus name="depNum"  th:value=${employee.depNum}></th>
+							<th>职位： <input type="text" class="form-control" required autofocus name="posNum"  th:value=${employee.posNum}></th>
+							<th>姓名：<input type="text" class="form-control" required autofocus name="empName" th:value=${employee.empName}></th>
+							<th>身份证号：<input type="text" class="form-control" required autofocus name="cardId" th:value=${employee.cardId}></th>
+							<th>性别： <input type="radio" name="sex" value="男">男 <input type="radio" name="sex" value="女">女</th>
+							<th>手机号：<input type="text" class="form-control" required autofocus name="mobileNum" th:value=${employee.mobileNum}></th>
+							<th>邮箱：<input type="email" class="form-control" required autofocus name="emailAdr" th:value=${employee.emailAdr}></th>
+							<th>密码：<input type="text" class="form-control" required autofocus name="passWd" th:value=${employee.passWd}></th>
+						</tr>
+					</thead>
+				</table>
+				<span  th:text=${updateMsg} style="color:red"></span>
+			    <button  class="btn btn-lg btn-primary btn-block"type="submit" >修改</button>			    
+			</form> 
+			
+			<!-- add -->
+			<form action="/emp/addEmp"  method="post" th:if=${empId}==null>		
+				<table class="table table-hover" style="text-align: center">
+					<thead>
+						<tr>
+							<th>员工编号：<input type="text" class="form-control" placeholder="请输入员工ID" required autofocus name="empId"></th>
+							<th>部门编号： <input type="text" class="form-control" placeholder="请输入部门编号" required autofocus name="depNum"></th>
+							<th>职位编号： <input type="text" class="form-control" placeholder="请输入职位编号" required autofocus name="posNum"></th>
+							<th>姓名：<input type="text" class="form-control" placeholder="姓名" required autofocus name="empName"></th>
+							<th>身份证号：<input type="text" class="form-control" placeholder="身份证号" required autofocus name="cardId"></th>
+							<th>性别：<input type="radio" name="sex" value="男">男 <input type="radio" name="sex" value="女">女</th>
+							<th>手机：<input type="text" class="form-control" placeholder="请输入11位手机号" required autofocus name="mobileNum"></th>
+							<th>邮箱：<input type="email" class="form-control" required autofocus name="emailAdr"></th>
+							<th>密码：<input type="password" class="form-control" required autofocus name="passWd"></th>
+						</tr>
+					</thead>
+				</table>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>		
+				<span th:text=${msg} style="color:red"></span>
+			</form> 
+			
+		</div>
+	</div>  
+</body>
+
+<script type='text/javascript'>   
+	if(window.addEventListener){  
+		window.addEventListener("DOMCharacterDataModified", function(){window.location.reload();}, true);  //在文本节点的值发生变化的时候触发
+		window.addEventListener("DOMAttributeNameChanged", function(){window.location.reload();}, true);  //DOM属性名发生变化触发(不支持火狐)
+		window.addEventListener("DOMElementNameChanged", function(){window.location.reload();}, true);  //DOM元素名发生变化触发(不支持火狐)
+		window.addEventListener("DOMNodeInserted", function(){window.location.reload();}, true);  //在一个节点作为子节点被插入到另一个节点中时触发
+		window.addEventListener("DOMNodeInsertedIntoDocument", function(){window.location.reload();}, true); //在一个节点被直接插入文档中或者通过子树间接插入文档后触发。在DOMNodeInserted之后触发 (不支持IE)
+		window.addEventListener("DOMNodeRemoved", function(){window.location.reload();}, true);  //在节点从其父节点中被移除时触发
+		window.addEventListener("DOMNodeRemovedFromDocument", function(){window.location.reload();}, true);  //在一个节点被直接从文档中删除或通过子树间接从文档中移除之前触发。在DOMNodeRemoved之后触发(不支持IE)
+		//window.addEventListener("DOMSubtreeModified", function(){window.location.reload();}, true);  //在DOM结构中发生任何变化时触发
+	}    
+</script>
+</html>
