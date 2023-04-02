@@ -1,2 +1,0 @@
-# MST
-First Sony Project
